@@ -29,7 +29,7 @@ Custo assimétrico: **falso negativo** = fraude aprovada (prejuízo); **falso po
 
 ## 3. Resultados
 
-Dataset completo, avaliação no **dia 2** (211 fraudes), scikit-learn 1.6.1:
+Dataset completo, avaliação no **dia 2** (211 fraudes), scikit-learn 1.6.1. Acurácia, precision, recall e F1 no corte 0,5; PR-AUC e ROC-AUC não dependem de corte. As métricas da linha 4 vêm do limiar ótimo:
 
 | # | Técnica | Acurácia | Precision | Recall | F1 | FP | PR-AUC | ROC-AUC |
 |---|---|---|---|---|---|---|---|---|
@@ -52,14 +52,14 @@ Ele baixa o creditcard.csv (144 MB) e cacheia — o arquivo está no .gitignore 
 Por linha de comando:
 
     pip install "pandas>=2.2" "scikit-learn>=1.4" matplotlib
-    python3 rodar.py        # dataset completo
+    python3 rodar.py        # dataset completo, as 4 tecnicas
     python3 rodar.py sub    # smoke test com 80k linhas
 
 ## 5. Arquivos
 
     deteccao_fraudes.ipynb   notebook: EDA -> metricas certas -> 4 tecnicas -> limiar -> conclusao
     fraude.py                nucleo reutilizavel (carga, splits, tecnicas, relatorio, graficos)
-    rodar.py                 executa o comparativo sem notebook
+    rodar.py                 executa as quatro tecnicas sem notebook, grava metricas.csv
 
 ## 6. Limitações (declaradas, não escondidas)
 
@@ -78,4 +78,4 @@ Por linha de comando:
 
 ## Licença
 
-MIT — ver LICENSE. Dataset público: [Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) (Dal Pozzolo, UCL). Nenhum dado pessoal é distribuído aqui.
+MIT — ver [LICENSE](LICENSE). Dataset público: [Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) (Dal Pozzolo, UCL). Nenhum dado pessoal é distribuído aqui.
