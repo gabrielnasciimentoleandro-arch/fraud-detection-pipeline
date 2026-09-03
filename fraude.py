@@ -9,8 +9,9 @@ Estrutura:
   carregar()          -> baixa/le o creditcard.csv
   baseline_ingenuo()  -> RegLog crua, split aleatorio (regua de comparacao)
   melhorado()         -> split temporal + RobustScaler + class_weight
-  tecnica_avancada()  -> HistGradientBoosting + undersampling 1:10
-  relatorio()         -> tabela de metricas comparando os tres
+  tecnica_avancada()  -> HistGradientBoosting cru
+  gbdt_undersampling()-> HistGradientBoosting + undersampling 1:10 (a tecnica final)
+  relatorio()         -> tabela de metricas comparando as quatro
 
 Sem bibliotecas exoticas: so pandas, numpy e scikit-learn.
 """
@@ -29,7 +30,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import RobustScaler, StandardScaler
+from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import StratifiedShuffleSplit
 
 URL = "https://storage.googleapis.com/download.tensorflow.org/data/creditcard.csv"
@@ -122,6 +123,30 @@ def tecnica_avancada(df):
         random_state=0,
     )
     modelo.fit(Xtr, ytr)
+    return yte, modelo.predict_proba(Xte)[:, 1], modelo
+
+
+def gbdt_undersampling(df):
+    """Tecnica final: o mesmo GBDT, treinado sobre todas as fraudes do dia 1 e
+    apenas 10x de transacoes legitimas. E o que da o salto real de PR-AUC/F1
+    (mesma amostragem e hiperparametros da secao 9 do notebook)."""
+    Xtr, Xte, ytr, yte = split_temporal(df)
+    rng = np.random.default_rng(0)
+    pos = np.where(ytr == 1)[0]
+    neg = np.where(ytr == 0)[0]
+    amostra = np.sort(np.concatenate([pos, rng.choice(neg, len(pos) * 10, replace=False)]))
+    modelo = HistGradientBoostingClassifier(
+        max_iter=300,
+        learning_rate=0.05,
+        max_leaf_nodes=31,
+        min_samples_leaf=20,
+        l2_regularization=1.0,
+        early_stopping=True,
+        validation_fraction=0.1,
+        n_iter_no_change=25,
+        random_state=0,
+    )
+    modelo.fit(Xtr[amostra], ytr[amostra])
     return yte, modelo.predict_proba(Xte)[:, 1], modelo
 
 

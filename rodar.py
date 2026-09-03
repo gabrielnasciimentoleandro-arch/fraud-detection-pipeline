@@ -12,9 +12,10 @@ if SUB:
     print("** MODO SUBSET:", df.shape, "fraudes:", int(df.Class.sum()), "**")
 
 linhas, pares = [], []
-for rotulo, fn in [("baseline_ingenuo", fraude.baseline_ingenuo),
-                   ("logreg+balanced", fraude.melhorado),
-                   ("HistGBDT", fraude.tecnica_avancada)]:
+for rotulo, fn in [("baseline_ingenuo (aleatorio)", fraude.baseline_ingenuo),
+                   ("logreg+balanced (temporal)", fraude.melhorado),
+                   ("HistGBDT (temporal)", fraude.tecnica_avancada),
+                   ("HistGBDT+undersample 1:10", fraude.gbdt_undersampling)]:
     t = time.time()
     res = fn(df)
     linhas.append(fraude.relatorio(res, rotulo))
