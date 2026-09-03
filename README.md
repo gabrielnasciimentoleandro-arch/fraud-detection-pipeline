@@ -40,8 +40,8 @@ Dataset completo, avaliação no **dia 2** (211 fraudes), scikit-learn 1.6.1:
 
 **Leituras que valem o projeto:**
 
-1. A técnica 2 tem o **melhor recall** (92%) e o **pior F1** (0,03): 13.000 alertas falsos para pegar 195 fraudes. Inviável em operação.
-2. Trocar de modelo (LogReg → GBDT) rende **+1pp de F1**. Tratar o desbalanceio **e** o limiar rende **+7pp**. O ganho está no pré-processamento, não no algoritmo.
+1. A técnica 2 tem o **melhor recall** (92%) e o **pior F1** (0,029 no corte 0,5): 13.000 alertas falsos para pegar 195 fraudes. Inviável em operação.
+2. Trocar de modelo (LogReg → GBDT) rende **+70pp de F1** (0,029 → 0,727) — mas quase todo esse salto vem do `class_weight`, não do GBDT: no limiar ótimo, LogReg 0,643 → GBDT 0,738 são **+9pp**, e GBDT + undersampling chega a **0,814** (+18pp). O ganho está no pré-processamento e no limiar, não no algoritmo.
 3. A acurácia da técnica 1 (99,89%) não a torna melhor que a 4: ela só está mais perto do "chute tudo normal" (99,83%) do que parece.
 
 ## 4. Como rodar
