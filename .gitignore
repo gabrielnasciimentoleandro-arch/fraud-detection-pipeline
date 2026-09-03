@@ -1,0 +1,13 @@
+# Dados (o notebook baixa e cacheia sozinho; 144 MB excede o limite do GitHub)
+creditcard.csv
+*.csv.gz
+data/
+
+# Artefatos de execucao
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+metricas*.csv
+pr_curve*.png
+full_run.log
+*.zip
