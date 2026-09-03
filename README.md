@@ -1,3 +1,5 @@
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gabrielnasciimentoleandro-arch/fraud-detection-pipeline/blob/main/deteccao_fraudes.ipynb)
+
 # Detecção de fraudes em transações
 
 Pipeline de triagem de fraude em creditcard.csv (284.807 transações), comparando
